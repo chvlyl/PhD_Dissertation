@@ -1,0 +1,275 @@
+%%% PREAMBLE - Modified from the Penn Wharton LaTeX Style file to meet requirements for Penn Biostatistics
+\NeedsTeXFormat{LaTeX2e}[2013/07/11]
+
+\RequirePackage[papersize={8.5 in, 11 in}, nohead, includeheadfoot, left=1.5 in, right = 1 in, vmargin= 1 in]{geometry}
+% The options above are to set the paper size (as per page 11 of the guidelines and the margins. Include foot is to make sure that nothing
+% gets printed on the margins. The statutory margins are set on page 5. 
+
+\renewcommand{\familydefault}{\sfdefault}
+
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{amsfonts}
+\RequirePackage{graphicx}
+\RequirePackage{verbatim}
+\RequirePackage{rotating}
+
+\RequirePackage[doublespacing]{setspace} % Needed to set double-spacing for the main document, but needs more adhoc commands to
+								% use single spacing for tables, etc.
+\RequirePackage{calc}
+
+% For the signature boxes and much better looking tables
+\RequirePackage{array} % Also for better arrays (eg matrices) in maths
+\RequirePackage{tabularx}
+\RequirePackage{booktabs}
+
+% Commands to format the Table of Contents, List of Tables and List of Illustrations, as per the Wharton Template
+\RequirePackage{tocloft}
+\setcounter{tocdepth}{1} % Only show chapters and sections in ToC
+
+% Change names and format of tables
+\renewcommand{\contentsname}{\hfill TABLE OF CONTENTS \hfill}
+\renewcommand{\cfttoctitlefont}{\large}
+\renewcommand{\cftaftertoctitle}{\hfill}
+\renewcommand{\cftbeforetoctitleskip}{-20 pt} % The key value here is the -21 pts, I got to it by old fashioned measuring with a ruler....
+\renewcommand{\listtablename}{LIST OF TABLES}
+\renewcommand{\cftlottitlefont}{\large\hfill}
+\renewcommand{\cftafterlottitle}{\hfill}
+\renewcommand{\cftbeforelottitleskip}{-11 pt} % The key value here is the -21 pts, I got to it by old fashioned measuring with a ruler....
+\renewcommand{\listfigurename}{LIST OF ILLUSTRATIONS}
+\renewcommand{\cftloftitlefont}{\large\hfill}
+\renewcommand{\cftafterloftitle}{\hfill}
+\renewcommand{\cftbeforeloftitleskip}{-11 pt} % The key value here is the -21 pts, I got to it by old fashioned measuring with a ruler....
+
+% Format chapters (dots, including the word chapter, etc.)
+\renewcommand{\cftchapfont}{\upshape}
+\renewcommand{\cftchapleader}{\upshape\cftdotfill{\cftdotsep}}
+\renewcommand{\cftchappagefont}{\upshape}
+\renewcommand{\cftchappresnum}{CHAPTER }
+\renewcommand{\cftchapaftersnum}{ :}
+\newlength{\mylen}   % a "scratch" length
+\settowidth{\mylen}{\cftchappresnum \cftchapaftersnum} % extra space
+\addtolength{\cftchapnumwidth}{\mylen} % add the extra space
+
+% Format tables in LoT
+\renewcommand{\cfttableader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cfttabpresnum}{TABLE }
+\renewcommand{\cfttabaftersnum}{ :}
+\newlength{\mylent}   % a "scratch" length
+\settowidth{\mylent}{\cfttabpresnum} % extra space
+\addtolength{\cfttabnumwidth}{\mylent} % add the extra space
+\RequirePackage{remreset}
+
+% Format Illusstrations in LoF
+\renewcommand{\cftfigleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftfigpresnum}{FIGURE }
+\renewcommand{\cftfigaftersnum}{ :}
+\newlength{\mylenf}   % a "scratch" length
+\settowidth{\mylenf}{\cftfigpresnum} % extra space
+\addtolength{\cftfignumwidth}{\mylenf} % add the extra space
+
+% Commands (more further down, at preliminary, main and appendix) to change the formatting of chapter headings
+\RequirePackage[compact]{titlesec}
+\renewcommand{\beforetitleunit}{0 pt}
+\titleformat{\section}[hang]{\large}{\thesection.}{6 pt}{}
+\titleformat{\subsection}[hang]{\normalsize\itshape}{\thesubsection.}{6 pt}{}
+\titlespacing*{\section}{0pt}{0pt}{0pt}
+\titlespacing*{\subsection}{0pt}{0pt}{0pt}
+
+\RequirePackage{parskip} % To allow for better management of the Dutch paragraph style
+\RequirePackage{url} % To allow for better typing of the url in the Creative Commons part of the copyright
+%\RequirePackage{natbib} % allows the author-date citation system
+
+% Control the amount of space floating objects can take up.
+\renewcommand{\topfraction}{0.9}	% max fraction of floats at top
+\renewcommand{\bottomfraction}{0.9}  % max fraction of floats at bottom
+
+% Setting up Title Page correctly
+\newcommand{\supervisor}[1]{%
+  \expandafter\gdef\csname supervisor@\endcsname{#1}}
+\newcount\cosup@cnt
+\cosup@cnt=0
+\newcommand{\cosupervisor}[1]{%
+  \expandafter\gdef\csname cosupervisor@\romannumeral\cosup@cnt\endcsname{#1}%
+  \advance\cosup@cnt by 1}
+\newcommand{\supervisortitle}[1]{%
+  \expandafter\gdef\csname supervisortitle@\endcsname{#1}}
+\newcommand{\cosupervisortitle}[1]{%
+  \expandafter\gdef\csname cosupervisortitle@\endcsname{#1}}
+\newcommand{\gradchair}[1]{%
+  \expandafter\gdef\csname gradchair@\endcsname{#1}}
+\newcount\comm@cnt
+\comm@cnt=1
+\newcommand{\committee}[1]{%
+  \expandafter\gdef\csname committee@\romannumeral\comm@cnt\endcsname{#1}%
+  \advance\comm@cnt by 1}
+
+\renewcommand\maketitle{\par
+  \begingroup
+     \singlespace
+      \@maketitle
+      \thispagestyle{empty} 
+      \pagenumbering{roman}
+  \endgroup
+  \setcounter{footnote}{0}%
+  \global\let\maketitle\relax
+  \global\let\@maketitle\relax
+  \global\let\@commitee\@empty
+  \global\let\committee\relax
+  \global\let\and\relax
+}
+
+\newcommand{\@maketitle}{%
+  \begin{center}%
+    \singlespace%
+     \normalsize{\MakeUppercase{\@title}%
+    \vskip 0em%
+   {\@author}%
+    \vskip 0em%
+   {A DISSERTATION}%
+    \vskip 0em%
+    {in}%   
+    \vskip 0em%
+    {Epidemiology and Biostatistics}%
+    \vskip 0em%
+   {Presented to the Faculties of the University of Pennsylvania}%
+    \vskip 0em%
+    { in}%
+    \vskip 0em%
+   {Partial Fulfillment of the Requirements for the}%
+    \vskip 0em%
+   {Degree of Doctor of Philosophy}%
+    \vskip 0em%
+    {\@date}%
+    \vskip 2.5cm}%
+  \end{center}%
+   \begin{flushleft}%
+   \ifnum \cosup@cnt=0 {%
+    {Supervisor of Dissertation}\vskip 0em%
+   \rule{2in}{0.25pt}\vskip 0em%
+   {\csname supervisor@\endcsname}\vskip 0em%
+  {\csname supervisortitle@\endcsname}}%
+  \else {%
+ \begin{tabular*}{\textwidth}{@{\extracolsep{\fill} }l l}%
+   {Supervisor of Dissertation} & {Co-Supervisor of Dissertation}\\ & \\ %\vskip 0em%
+    \rule{2in}{0.25pt} & \rule{2in}{0.25pt}\\ & \\ %\vskip 0em%
+   {\csname supervisor@\endcsname} & {\csname cosupervisor@\endcsname}\\ & \\ %\vskip 0em%
+   {\csname supervisortitle@\endcsname} & {\csname cosupervisortitle@\endcsname} %\vskip 0em%%
+\end{tabular*}%
+}%
+ \fi%  
+  \vskip 1.0cm%
+  {Graduate Group Chairperson} \vskip 0em%
+  \rule{2in}{0.25pt} \vskip 0em%
+   {\csname gradchair@\endcsname}%
+  \vskip 1.0cm%
+  {Dissertation Committee}\vskip 0em%
+  \newcount\n%
+  \n=1%
+  \loop {\csname committee@\romannumeral\n\endcsname}%
+  \advance \n by 1%
+  \ifnum\n<\comm@cnt%
+  \vskip 0em \repeat%
+  \end{flushleft}
+}
+\newcommand{\ifundefined}[1]{\expandafter\ifx\csname#1\endcsname\relax}
+
+\newcommand{\acknowledgement}[1]{%
+    \expandafter\gdef\csname acknowledgement@\endcsname{#1}}
+\renewcommand{\abstract}[1]{%
+    \expandafter\gdef\csname abstract@\endcsname{#1}}
+
+\newcommand{\copyrightnotice}{%
+  \vspace*{\fill} 
+  \begin{flushleft}%
+  \MakeUppercase{\@title}  \vskip -0.5em%
+  \copyright \space {COPYRIGHT} \vskip -0.5em%
+  \@date \vskip -0.5em%
+  \@author \vskip 0.6em%
+{This work is licensed under the} \vskip -1em {Creative Commons Attribution} \vskip -1em {NonCommercial-ShareAlike 3.0} \vskip -1em {License} \vskip 0.3em%
+{To view a copy of this license, visit} \vskip -0.5em%
+\url{http://creativecommons.org/licenses/by-nc-sa/3.0/} %
+\end{flushleft}%
+}
+
+\newcommand{\preliminary}{%
+   \titleformat{\chapter}[hang]{\large\center}{\scshape\thechapter}{0 pt}{}%
+   \titlespacing*{\chapter}{0pt}{-33 pt}{6 pt} % The key value here is the -33 pts, I got to it by old fashioned measuring with a ruler....
+   \clearpage%
+   \chapter*{ACKNOWLEDGEMENT}%
+   \addcontentsline{toc}{chapter}{ACKNOWLEDGEMENT} % This is to include this section in the Table of Contents}
+   {\csname acknowledgement@\endcsname}%
+   \clearpage%
+   \chapter*{ABSTRACT} \vskip -0.3em%
+   \addcontentsline{toc}{chapter}{ABSTRACT}% This is to include this section in the Table of Contents
+   \begin{center}%
+   {\MakeUppercase{\@title}} \vskip 0em%
+   {\@author} \vskip -0.3em%
+   \ifnum \cosup@cnt=0 {%
+    {\csname supervisor@\endcsname} \vskip 0.3em%
+   } \else {%
+    {\csname supervisor@\endcsname} \vskip -0.3em%
+    {\csname cosupervisor@\endcsname} \vskip 0.3em%
+   } \fi%
+   \end{center}%
+    {\csname abstract@\endcsname}% 
+  \clearpage%
+   \tableofcontents% Table of Contents
+  \clearpage%
+  \singlespacing%
+  \listoftables% Table of Tables
+  \addcontentsline{toc}{chapter}{LIST OF TABLES}  %
+  \clearpage%
+  \listoffigures% List of Figures
+  \addcontentsline{toc}{chapter}{LIST OF ILLUSTRATIONS}%
+   \doublespacing%
+}
+
+\newenvironment{mainf}{%
+  \titleformat{\chapter}[display]{\large\center\scshape}{CHAPTER \thechapter}{0pt}{}
+  \titlespacing*{\chapter}{0pt}{-29 pt}{6 pt} % The key value here is the -29 pts, I got to it by old fashioned measuring with a ruler....
+  \newpage%
+  \pagenumbering{arabic}%
+  \pagestyle{plain} % This has to be repeated here because the lists change the style
+% Dutch style of paragraph formatting, i.e. no indents. 
+  \setlength{\parskip}{10 pt} % Same as Word file
+  \setlength{\parindent}{0pt} %
+}{}
+
+\newcommand{\chpt}[1]{\chapter[\textsc{#1}]{#1}}
+
+\newenvironment{appendix1}{%
+\newpage%
+\setcounter{chapter}{0}%
+\renewcommand{\thechapter}{\Alph{chapter}}%
+\titleformat{\chapter}[display]{\large\center\scshape}{APPENDIX}{0 pt}{} % Old {APPENDIX \thechapter}{0 pt}{ : }
+\titlespacing*{\chapter}{0pt}{-33 pt}{6 pt} % The key value here is the -33 pts, I got to it by old fashioned measuring with a ruler....
+\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}} % This is to fix how appendices are shown in ToC
+\addtocontents{toc}{\protect\setcounter{tocdepth}{1}} % This is to bring things back to normal
+\addcontentsline{toc}{chapter}{APPENDIX} % You have to write here everything you want the ToC to show including \thechapter if you want numbering
+
+}{}
+
+\newenvironment{appendixm}{%
+\newpage%
+\setcounter{chapter}{0}%
+\renewcommand{\thechapter}{\Alph{chapter}}%
+\titleformat{\chapter}[display]{\large\center\scshape}{APPENDIX \thechapter}{0 pt}{} % Old {APPENDIX \thechapter}{0 pt}{ : }
+\titlespacing*{\chapter}{0pt}{-33 pt}{6 pt} % The key value here is the -33 pts, I got to it by old fashioned measuring with a ruler....
+\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}} % This is to fix how appendices are shown in ToC
+\addtocontents{toc}{\protect\setcounter{tocdepth}{1}} % This is to bring things back to normal
+\addcontentsline{toc}{chapter}{APPENDICES} %
+\addtocontents{toc}{\protect\setcounter{tocdepth}{-1}} % This is so sections in the appendix are not shown in the ToC
+}{}
+
+\newenvironment{bibliof}{%
+\singlespacing%
+\addtocontents{toc}{\protect\setcounter{tocdepth}{1}} % This is to bring things back to normal
+\titleformat{\chapter}[hang]{\large\center}{\thechapter}{0 pt}{}
+\titlespacing*{\chapter}{0pt}{-25 pt}{6 pt} % The key value here is the -25 pts, I got to it by old fashioned measuring with a ruler....
+%\renewcommand\bibname{BIBLIOGRAPHY}
+\addcontentsline{toc}{chapter}{BIBLIOGRAPHY}
+\setlength{\bibitemsep}{\baselineskip}
+}{}
+
+\endinput

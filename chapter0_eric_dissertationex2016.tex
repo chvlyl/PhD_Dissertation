@@ -1,0 +1,164 @@
+\documentclass[10pt]{report}  % Acceptable font sizes are 10 to 12 pts depending on font type. Arial (10pt), Courier New (10pt), Times New Roman (12pt) or Verdana (10pt).
+% This template used Arial 10pt. Note that lengths in the style file may need to be changed if a different size and font are used.
+
+% Commands needed for using Biblatex instead of natbib.
+% NB: If you have biber installed, change backend=bibtex to backend=biber for better formatting
+\usepackage[backend=bibtex,style=authoryear-comp,firstinits=true,terseinits=true,maxcitenames=3,maxbibnames=99,dashed=false,natbib=true]{biblatex}
+\DeclareNameAlias{sortname}{last-first}
+\DeclareFieldFormat[article,incollection,unpublished]{title}{#1}%No quotes for article titles
+\DeclareFieldFormat[thesis]{title}{\mkbibemph{#1}} % Theses like book titles
+\DeclareBibliographyDriver{article}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/translator+others}%
+  \setunit{\labelnamepunct}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \usebibmacro{bytranslator+others}%
+  \newunit\newblock
+  \printfield{version}%
+  \newunit\newblock%
+  \usebibmacro{journal+issuetitle}%
+  \newunit
+  \usebibmacro{byeditor+others}%
+  \newunit
+  \usebibmacro{note+pages}%
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{issn}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \usebibmacro{finentry}}
+\renewcommand*{\postnotedelim}{\space}
+\DeclareFieldFormat{postnote}{#1}% no postnote prefix in "normal" citation commands
+\DeclareFieldFormat{multipostnote}{#1}% no postnote prefix in "multicite" commands
+\DeclareFieldFormat{pages}{#1}% no prefix for the `pages` field in the bibliography
+
+% Style files needed to format dissertation correctly
+\usepackage{pennbiostat_biblatex}
+\usepackage{helvet} % Use to get arial type font 
+% This package automatically includes the packages:
+% amsmath, amssymb, amsfonts, graphicx, verbatim, setspace, calc, array, tabularx, booktabs, tocloft, remreset, titlesec, parskip, url
+% Make sure that any packages you add do not conflict with these packages before using them!
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Make changes below this line
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% All of your own packages go here
+% \usepackage{epstopdf}  % Include this package if you have eps figures to be included
+\usepackage{multirow}
+\usepackage{longtable}
+\usepackage{lscape}
+
+% Bibliography files go here. Use a separate \addbibresource for each .bib file. File extension is needed.
+\addbibresource{ref/thesis.bib}
+%\addbibresource{ref/MicrobiomeTime.bib}
+%\addbibresource{ref/refs.bib}
+%\addbibresource{dissertationex.bib}
+
+\hyphenation{} % Hyphenation hints
+
+\title{MICROBIOME AND METAGENOMICS: STATISTICAL METHODS, COMPUTATION AND APPLICATION}
+\author{Zhang Chen} % Your name
+\date{2016} % Only put the year here
+\supervisor{Hongzhe Li}
+\supervisortitle{Professor of Biostatistics}
+%\cosupervisor{Duffy Duck} % Comment out if not needed 
+%\cosupervisortitle{Associate Professor of WB} % Comment out if not needed 
+\gradchair{Li-San Wang, Associate Professor of Pathology and Laboratory Medicine} % This needs to be the graduate group chair. Check BGS website for current chair
+\committee{Frederic Bushman, Professor of Microbiology}  % Your committee chair should be listed first
+\committee{Junhyong Kim, Professor of Biology}
+\committee{Mingyao Li, Associate Professor of Biostatistics}
+\committee{Yoseph Barash, Assistant Professor of Genetics}
+
+
+
+\acknowledgement{I would like to thank my PhD supervisor Hongzhe Li for his support and guidance on my research during the past five years. He is not only an extraordinary statistician and researcher, but also a great mentor. I have learned a lot from him about how to solve scientific problems from statistical perspective, as well as writing statistics papers and making clear presentations.
+
+I also want to thank my thesis committee members, Rick Bushman, Junhyong Kim, Mingyao Li and Yoseph Barash. They gave me tremendous help and great suggestions on my scientific research, presentation skills and career development. 
+
+I would like to express my gratitude to my collaborators, Jim Lewis, Gary Wu, Rick Bushman and people in their labs. They offer me the opportunity to get involved in the Penn Microbiome Project and I gained a lot of hands-on experience in real data analysis. The discussions we had in regular meetings motived me to develop new statistical methods for microbiome data analysis.
+
+My thanks also go to Genomics and Computational Biology (GCB) program, my fellow graduate students, and program coordinators Hannah Chervitz and Maureen Kirsch. Without their support, it is impossible for me to finish my PhD.
+
+Lastly, I am deeply grateful to Tianyi Zhang, Yuchao Jiang, Yi Zhang and other friends as well as my mother for their love and support all the time. I encountered so many difficulties in my life and it is their love that keeps me going and it is their care that helps me to focus on my research.
+}
+
+\abstract{The human microbial communities, also called microbiome, are associated with many human diseases such as obesity, diabetes and inflammatory bowel disease. High-throughput sequencing technology has been widely used to profile the microbial communities in order to understand their impact on human health. In the first part of this dissertation, we analyzed fecal samples using shotgun metagenomic sequencing from a prospective cohort of pediatric Crohn’s disease patients, who started therapy with enteral nutrition or anti-TNF$\alpha$ antibodies. The results reveal the full complement and dynamics of bacteria and fungi during treatment. Bacterial community membership was associated independently with dysbiosis, intestinal inflammation, antibiotic use, and therapy. Motived by the problems in real data analysis, this dissertation also presents two novel statistical models for microbiome data analysis. One important aspect of metagenomic data analysis is to quantify the bacterial abundances based on the sequencing data. In order to account for certain systematic differences in read coverage along the genome, we propose a multi-sample Poisson model to quantify microbial abundances based on read counts that are assigned to species-specific taxonomic markers. Our model takes into account the marker-specific effects when normalizing the sequencing count data in order to obtain more accurate quantification of the species abundances. Another statistical model we proposed is for longitudinal microbiome data analysis. A key question in longitudinal microbiome studies is to identify the microbes that are associated with clinical outcomes or environmental factors. We develop a zero-inflated Beta regression model with random effects for testing the association between microbial abundance and clinical covariates for longitudinal microbiome data. The model includes a logistic regression component to model presence/absence of a microbe in samples and a Beta regression component to model non-zero microbial abundance, where each component includes a random effect to take into account the correlations among repeated measurements on the same subject. The statistical methods were evaluated using simulations as well as the real data from Penn microbiome study of pediatric Crohn’s disease.}
+
+\begin{document}
+
+% Making tables and figures numbered continuously
+%\makeatletter
+%\@removefromreset{table}{chapter}
+%\makeatother
+%\renewcommand{\thetable}{\arabic{table}}
+%\makeatletter
+%\@removefromreset{figure}{chapter}
+%\makeatother
+%\renewcommand{\thefigure}{\arabic{figure}}
+%%%
+\thispagestyle{empty} % No page number as per Manual, p. 11
+\maketitle
+\pagebreak
+
+\setcounter{page}{2}
+\thispagestyle{empty} % No page number as per Manual, p. 11
+
+\copyrightnotice
+
+\pagebreak
+\doublespacing
+\preliminary
+
+\begin{mainf}
+% THIS IS WHERE YOU CAN START ADDING CONTENT. 
+% RECOMMEND USING \include{} statements to split the chapters into managable files.
+
+%% --------------- Introduction -------------------%%
+\include{chapter1_introduction}
+
+
+%% --------------- PLEASE -------------------%%
+\include{chapter2}
+
+
+%% --------------- MSSQ -------------------%%
+\include{chapter3}
+
+%% --------------- ZIBR -------------------%%
+\include{chapter4}
+
+
+%% -------------- Reproducible --------------%%
+\include{chapter5_reproducible}
+
+
+%% -------------- Discussion --------------%%
+\include{chapter6}
+
+
+\end{mainf}
+
+% Use environment appendix1 if there is only 1 appendix (no numbering needed)
+%\begin{appendix1}
+%\chpt{Notation}
+%\end{appendix1}
+
+
+\begin{bibliof}
+\printbibliography[title={BIBLIOGRAPHY}]
+\end{bibliof}
+
+\end{document}
